@@ -18,5 +18,6 @@ task.wait(1)
 MainMenu.RemoteEvent:FireServer("LoadChar1")
 repeat task.wait() until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
 
+local url = "https://raw.githubusercontent.com/byfronofficial/Inertia/main/SpecialProject/Main.lua"
 queue_on_teleport("loadstring(game:HttpGet('" .. url .. "', true))()")
 game:GetService("TeleportService"):Teleport((game.PlaceId == 17067673356) and 76053362197989 or 17067673356)
