@@ -32,6 +32,8 @@ local ShootFunction;
 local Meter2Meter = LocalPlayer.Character.Meter2.Meter
 local SpinbotToggleValue;
 
+print("Defined all Vars")
+
 for i,v in next, getgc(false) do
     if (type(v) == 'function' and not isexecutorclosure(v) and debug.getinfo(v).name and debug.getinfo(v).name == "Shoot") then
         ShootFunction = v
@@ -54,6 +56,8 @@ local Settings = {
 
 }
 
+print("Defined Settings")
+
 local Connections = {
     AutoGreenConnection = nil,
     DribblingGlide = nil,
@@ -63,6 +67,8 @@ local Connections = {
     ControllerSpinbotInput = nil,
 
 }
+
+print("Defined Connections")
 
 Connections.CharacterAddedConnection = LocalPlayer.CharacterAdded:Connect(function(newCharacter)
     Character = newCharacter
@@ -206,6 +212,8 @@ Functions.getClosestPlayer = function(MaxDistance)
     return closestPlayer
 end
 
+print("Defined all Functions")
+
 local ArrayField = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3AArrayfield%20Library"))()
 
 local Window = ArrayField:CreateWindow({
@@ -242,6 +250,8 @@ local Window = ArrayField:CreateWindow({
     }
 })
 
+print("Defined UI")
+
 local Tab = Window:CreateTab("Main", 4483362458)
 local Section = Tab:CreateSection("Main",false)
 local RageAutoGreenToggle = Tab:CreateToggle({
@@ -258,6 +268,8 @@ local RageAutoGreenToggle = Tab:CreateToggle({
     end,
 })
 
+print("Defined UI 1")
+
 local AutoGreenToggle = Tab:CreateToggle({
     Name = "Auto Green",
     Info = {
@@ -271,6 +283,8 @@ local AutoGreenToggle = Tab:CreateToggle({
         Settings.AutoGreen = Value
     end,
 })
+
+print("Defined UI 2")
 
 local AlwaysSprintToggle = Tab:CreateToggle({
     Name = "Always Sprint",
@@ -294,6 +308,8 @@ local AlwaysSprintToggle = Tab:CreateToggle({
     end,
 })
 
+print("Defined UI 3")
+
 local InfiniteStaminaToggle = Tab:CreateToggle({
     Name = "Infinite Stamina",
     Info = {
@@ -307,6 +323,8 @@ local InfiniteStaminaToggle = Tab:CreateToggle({
         Settings.InfiniteStamina = Value
     end,
 })
+
+print("Defined UI 4")
 
 local WalkSpeedToggle = Tab:CreateToggle({
     Name = "Walk Speed",
@@ -322,6 +340,8 @@ local WalkSpeedToggle = Tab:CreateToggle({
     end,
 })
 
+print("Defined UI 5")
+
 local WalkSpeedSlider = Tab:CreateSlider({
     Name = "Speed",
     Range = {0, 100},
@@ -333,6 +353,8 @@ local WalkSpeedSlider = Tab:CreateSlider({
         Settings.Speed = Value
     end,
 })
+
+print("Defined UI 6")
 
 local PickUpRangeToggle = Tab:CreateToggle({
     Name = "Pick Up Range",
@@ -348,6 +370,8 @@ local PickUpRangeToggle = Tab:CreateToggle({
     end,
 })
 
+print("Defined UI 7")
+
 local PickUpRangeSlider = Tab:CreateSlider({
     Name = "Range",
     Range = {0, 100},
@@ -359,6 +383,8 @@ local PickUpRangeSlider = Tab:CreateSlider({
         Settings.Range = Value
     end,
 })
+
+print("Defined UI 8")
 
 local UnlockGamepassesToggle = Tab:CreateToggle({
     Name = "Unlock All",
@@ -380,6 +406,8 @@ local UnlockGamepassesToggle = Tab:CreateToggle({
         end
     end,
 })
+
+print("Defined UI 9")
 
 local DribbleGlideToggle = Tab:CreateToggle({
     Name = 'Dribble Glide',
@@ -419,6 +447,8 @@ local DribbleGlideToggle = Tab:CreateToggle({
     end
 })
 
+print("Defined UI 10")
+
 local DribbleGlideSlider = Tab:CreateSlider({
     Name = "Dribble Amount",
     Range = {0.1, 10},
@@ -430,6 +460,8 @@ local DribbleGlideSlider = Tab:CreateSlider({
         Settings.DribbleAmount = Value
     end,
 })
+
+print("Defined UI 11")
 
 local SpinBotToggleButton = Tab:CreateToggle({
     Name = 'SpinBot',
@@ -446,6 +478,8 @@ local SpinBotToggleButton = Tab:CreateToggle({
     end
 })
 
+print("Defined UI 12")
+
 local SpinBotSliderElement = Tab:CreateSlider({
     Name = "SpinBot Slider",
     Range = {1, 50},
@@ -458,6 +492,7 @@ local SpinBotSliderElement = Tab:CreateSlider({
     end,
 })
 
+print("Defined UI 13")
 
 Connections.AutoGreenConnection = ShootButton.MouseButton1Down:Connect(function()
     if Settings.AutoGreen then
@@ -465,6 +500,8 @@ Connections.AutoGreenConnection = ShootButton.MouseButton1Down:Connect(function(
         ShootRemote:FireServer(false, -0.99, true)
     end
 end)
+
+print("Defined Connection 1")
 
 Connections.ControllerInput = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if input.UserInputType == Enum.UserInputType.Gamepad1 then
@@ -475,6 +512,8 @@ Connections.ControllerInput = UserInputService.InputBegan:Connect(function(input
     end
 end)
 
+print("Defined Connection 2")
+
 Connections.ControllerSpinbotInput = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if input.UserInputType == Enum.UserInputType.Gamepad1 then
         if input.KeyCode == Enum.KeyCode.ButtonR1 then
@@ -484,15 +523,18 @@ Connections.ControllerSpinbotInput = UserInputService.InputBegan:Connect(functio
     end
 end)
 
+print("Defined Connection 3")
+
 local old; old = hookfunction(ShootFunction, function(...)
     if Settings.RageAutoGreen then
-        local v36 = -0.99
-        ReplicatedStorage.Events.Shoot:FireServer(p34, v36, false)
+        ReplicatedStorage.Events.Shoot:FireServer(false, -0.99, false)
         Meter2Meter.Parent.Enabled = false
     else
         old(...)
     end
 end)
+
+print("Defined Hook")
 
 RunService.RenderStepped:Connect(function()
     if Settings.WalkSpeed then
@@ -509,3 +551,5 @@ RunService.RenderStepped:Connect(function()
         end
     end
 end)
+
+ print("Defined RenderStepped")
