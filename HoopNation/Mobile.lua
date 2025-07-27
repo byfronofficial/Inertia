@@ -484,28 +484,15 @@ Connections.ControllerSpinbotInput = UserInputService.InputBegan:Connect(functio
     end
 end)
 
-local function test()
-    return true
-end
-
-local ref = hookfunction(test, function(...)
-    return false
+local old; old = hookfunction(ShootFunction, function(...)
+    if Settings.RageAutoGreen then
+        local v36 = -0.99
+        ReplicatedStorage.Events.Shoot:FireServer(p34, v36, false)
+        Meter2Meter.Parent.Enabled = false
+    else
+        old(...)
+    end
 end)
-
-if test() == false and ref() == true and test ~= ref then
-    --print("Hookfunction works for your executor!")
-    local old; old = hookfunction(ShootFunction, function(...)
-        if Settings.RageAutoGreen then
-            local v36 = -0.99
-            ReplicatedStorage.Events.Shoot:FireServer(p34, v36, false)
-            Meter2Meter.Parent.Enabled = false
-        else
-            old(...)
-        end
-    end)
-else
-    print("Hookfunction is not supported in your executor!")
-end
 
 RunService.RenderStepped:Connect(function()
     if Settings.WalkSpeed then
