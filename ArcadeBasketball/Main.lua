@@ -15,6 +15,9 @@ local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local humanoid = Character:FindFirstChildOfClass("Humanoid")
 local HumanoidRootPart = Character.HumanoidRootPart
 
+local inventory = LocalPlayer:WaitForChild("Profile"):WaitForChild("Inventory")
+local clothingAssets = ReplicatedStorage:WaitForChild("ClothingAssets")
+
 local Basketballs = game.Workspace.Basketballs
 
 local Camera = Workspace.CurrentCamera;
@@ -32,6 +35,13 @@ local args = {
     100,
     [4] = false
 }
+
+local LogosFolder = LocalPlayer.Profile.Logos
+local LogosTable = {}
+
+for index, value in next, LogosFolder:GetChildren() do
+    table.insert(LogosTable, tostring(value))
+end
 
 local Window = Library:CreateWindow({
   Title = 'Inertia | <font color=\"#00ff00\">Free</font> | Arcade Basketball',
@@ -58,12 +68,67 @@ Main:AddSlider('Speed', {
   Rounding = 2,
 })
 Main:AddToggle('AutoGreenRageToggle', {
-  Text = '<font color=\"#ff0000\">Force Green</font>',
+  Text = '<font color=\"#ff0000\">Rage Auto Green (PRESS T)</font>',
   Default = false,
   Tooltip = 'Very obvious -- works the best',
 
 })
 
+Main:AddToggle('LogosDisplayToggle', {
+  Text = 'Logos Display',
+  Default = false,
+  Tooltip = 'Shows a Logo next to your name in Chat [Client-Sided]',
+
+  Callback = function(Value)
+        if Toggles.LogosDisplayToggle.Value then
+            for index, value in next, LogosFolder:GetChildren() do
+                value.Value = false
+            end
+
+            LogosFolder:FindFirstChild(Options.LogosDropdown.Value).Value = true
+        else
+            for index, value in next, LogosFolder:GetChildren() do
+                value.Value = false
+            end
+        end
+    end
+
+})
+
+Main:AddDropdown('LogosDropdown', {
+    Values = LogosTable,
+    Default = 1, 
+    Multi = false,
+
+    Text = 'Logos Dropdown',
+    Tooltip = 'Shows Logo in Chat [Client-Sided]', 
+
+    Callback = function(Value)
+        if Toggles.LogosDisplayToggle.Value then
+            for index, value in next, LogosFolder:GetChildren() do
+                value.Value = false
+            end
+
+            LogosFolder:FindFirstChild(Value).Value = true
+        end
+    end
+})
+
+Main:AddToggle('InfStamina', {Text = 'Infinite Stamina',})
+
+local MyButton = Main:AddButton({
+    Text = 'Unlock All',
+    Func = function()
+        for _, item in next, (inventory:GetChildren()) do
+        item:Destroy()
+        end
+
+        for _, asset in next, (clothingAssets:GetChildren()) do
+        asset:Clone().Parent = inventory
+        end
+    end,
+    DoubleClick = false,
+})
 
 local ShootRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Shoot")
 local namecall
@@ -78,16 +143,17 @@ namecall = hookmetamethod(game,"__namecall",function(self,...)
     return namecall(self,...)
 end)
 
-local old; old = hookfunction(ShootFunction, function(...)
-    if Toggles.AutoGreenRageToggle.Value then
-        local v36 = -0.99
-        
-        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Shoot"):FireServer(unpack(args))
-
-        ShootRemote:FireServer(false, v36, false)
-    else
-        old(...)
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
+    if input.KeyCode == Enum.KeyCode.T then
+      game.ReplicatedStorage.Events.Shoot:FireServer(nil, -1, nil, nil)
+      game.ReplicatedStorage.Events.Shoot:FireServer(nil, -1, nil)
     end
+end)
+
+game:GetService("Players").LocalPlayer.Values.Stamina:GetPropertyChangedSignal("Value"):Connect(function()
+  if game:GetService("Players").LocalPlayer.Values.Stamina.Value ~= 1 and Toggles.InfStamina.Value then
+    game:GetService("Players").LocalPlayer.Values.Stamina.Value = 1
+  end
 end)
 
 RunService.RenderStepped:Connect(function()
