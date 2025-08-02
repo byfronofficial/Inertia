@@ -214,211 +214,123 @@ end
 
 print("Defined all Functions")
 
-local ArrayField = loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3AArrayfield%20Library"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-local Window = ArrayField:CreateWindow({
-    Name = "Inertia | Mobile",
-    LoadingTitle = "Inertia | Mobile",
-    LoadingSubtitle = "Inertia | Mobile",
-    ConfigurationSaving = {
-        Enabled = false,
-        FolderName = nil,
-        FileName = "ArrayField"
-    },
-    Discord = {
-        Enabled = false,
-        Invite = "sirius",
-        RememberJoins = true
-    },
-    KeySystem = false,
-    KeySettings = {
-        Title = "ArrayField",
-        Subtitle = "Key System",
-        Note = "Join the discord (discord.gg/sirius)",
-        FileName = "ArrayFieldsKeys",
-        SaveKey = false,
-        GrabKeyFromSite = false,
-        Key = {"Hello",'Bye'},
-        Actions = {
-            [1] = {
-                Text = 'Click here to copy the key link',
-                OnPress = function()
-
-                end,
-            }
-        },
-    }
+local Window = Fluent:CreateWindow({
+    Title = "Hoop Nation",
+    SubTitle = "By Zypher and The",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
 })
 
-print("Defined UI")
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
 
-local Tab = Window:CreateTab("Main", 4483362458)
-local Section = Tab:CreateSection("Main",false)
-local RageAutoGreenToggle = Tab:CreateToggle({
-    Name = "Rage Auto-Green",
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "RageAutoGreenFlag",
+-- Example toggle (already included)
+local RageAutoGreenToggle = Tabs.Main:AddToggle("RageAutoGreenToggle", {
+    Title = "Rage Auto-Green",
+    Default = false,
     Callback = function(Value)
         Settings.RageAutoGreen = Value
-    end,
+    end
 })
 
-print("Defined UI 1")
-
-local AutoGreenToggle = Tab:CreateToggle({
-    Name = "Auto Green",
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "AutoGreenFlag",
+-- Auto Green Toggle
+Tabs.Main:AddToggle("AutoGreenToggle", {
+    Title = "Auto Green",
+    Default = false,
     Callback = function(Value)
         Settings.AutoGreen = Value
-    end,
+    end
 })
 
-print("Defined UI 2")
-
-local AlwaysSprintToggle = Tab:CreateToggle({
-    Name = "Always Sprint",
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "AlwaysSprintFlag",
+-- Always Sprint Toggle
+Tabs.Main:AddToggle("AlwaysSprintToggle", {
+    Title = "Always Sprint",
+    Default = false,
     Callback = function(Value)
-        if Value then
-            if not SprintValue.Value then
-                SprintValue.Value = true
-            end
-        else
-            if SprintValue.Value then
-                SprintValue.Value = false
-            end
-        end
-    end,
+        SprintValue.Value = Value
+    end
 })
 
-print("Defined UI 3")
-
-local InfiniteStaminaToggle = Tab:CreateToggle({
-    Name = "Infinite Stamina",
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "InfiniteStaminaFlag",
+-- Infinite Stamina Toggle
+Tabs.Main:AddToggle("InfiniteStaminaToggle", {
+    Title = "Infinite Stamina",
+    Default = false,
     Callback = function(Value)
         Settings.InfiniteStamina = Value
-    end,
+    end
 })
 
-print("Defined UI 4")
-
-local WalkSpeedToggle = Tab:CreateToggle({
-    Name = "Walk Speed",
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "WalkSpeedFlag",
+-- WalkSpeed Toggle
+Tabs.Main:AddToggle("WalkSpeedToggle", {
+    Title = "Walk Speed",
+    Default = false,
     Callback = function(Value)
         Settings.WalkSpeed = Value
-    end,
+    end
 })
 
-print("Defined UI 5")
-
-local WalkSpeedSlider = Tab:CreateSlider({
-    Name = "Speed",
-    Range = {0, 100},
-    Increment = 1,
-    Suffix = "*",
-    CurrentValue = 11,
-    Flag = "WalkSpeedSlider",
+-- WalkSpeed Slider
+Tabs.Main:AddSlider("WalkSpeedSlider", {
+    Title = "Speed",
+    Default = 11,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
     Callback = function(Value)
         Settings.Speed = Value
-    end,
+    end
 })
 
-print("Defined UI 6")
-
-local PickUpRangeToggle = Tab:CreateToggle({
-    Name = "Pick Up Range",
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "PickUpRangeFlag",
+-- Pick Up Range Toggle
+Tabs.Main:AddToggle("PickUpRangeToggle", {
+    Title = "Pick Up Range",
+    Default = false,
     Callback = function(Value)
         Settings.PickupRange = Value
-    end,
+    end
 })
 
-print("Defined UI 7")
-
-local PickUpRangeSlider = Tab:CreateSlider({
-    Name = "Range",
-    Range = {0, 100},
-    Increment = 1,
-    Suffix = "*",
-    CurrentValue = 11,
-    Flag = "PickUpRangeSlider",
+-- Pick Up Range Slider
+Tabs.Main:AddSlider("PickUpRangeSlider", {
+    Title = "Pick Up Range",
+    Default = 11,
+    Min = 0,
+    Max = 100,
+    Rounding = 1,
     Callback = function(Value)
         Settings.Range = Value
-    end,
+    end
 })
 
-print("Defined UI 8")
-
-local UnlockGamepassesToggle = Tab:CreateToggle({
-    Name = "Unlock All",
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "UnlockGamepassesFlag",
+-- Unlock All Toggle
+Tabs.Main:AddToggle("UnlockGamepassesToggle", {
+    Title = "Unlock All",
+    Default = false,
     Callback = function()
+        GamepassValues = GamepassValues or (LocalPlayer.Character.Stats and LocalPlayer.Character.Stats:FindFirstChild("Gamepasses"))
         if GamepassValues then
-            for i,v in next, (GamepassValues:GetChildren()) do
+            for _, v in ipairs(GamepassValues:GetChildren()) do
                 v.Value = true
             end
         else
-            GamepassValues = LocalPlayer.Character.Stats.Gamepasses or nil
-            error("Could not find character, make sure you are loaded in!")
+            warn("Gamepasses not found. Make sure you are loaded in!")
         end
-    end,
+    end
 })
 
-print("Defined UI 9")
-
-local DribbleGlideToggle = Tab:CreateToggle({
-    Name = 'Dribble Glide',
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "DribbleGlideFlag",
-
+-- Dribble Glide Toggle
+Tabs.Main:AddToggle("DribbleGlideToggle", {
+    Title = "Dribble Glide",
+    Default = false,
     Callback = function(Value)
         if Value then
             if not Connections.DribblingGlide then
@@ -434,8 +346,8 @@ local DribbleGlideToggle = Tab:CreateToggle({
                         wait()
                     end
 
-                    bodyVelocity.Velocity = Vector3.new(0, 0, 0)
-                    bodyVelocity.MaxForce = Vector3.new(0, 0, 0)
+                    bodyVelocity.Velocity = Vector3.zero
+                    bodyVelocity.MaxForce = Vector3.zero
                 end)
             end
         else
@@ -447,52 +359,39 @@ local DribbleGlideToggle = Tab:CreateToggle({
     end
 })
 
-print("Defined UI 10")
-
-local DribbleGlideSlider = Tab:CreateSlider({
-    Name = "Dribble Amount",
-    Range = {0.1, 10},
-    Increment = 1,
-    Suffix = "*",
-    CurrentValue = 11,
-    Flag = "DribbleAmountSlider",
+-- Dribble Amount Slider
+Tabs.Main:AddSlider("DribbleAmountSlider", {
+    Title = "Dribble Amount",
+    Default = 1,
+    Min = 1,
+    Max = 10,
+    Rounding = 1,
     Callback = function(Value)
         Settings.DribbleAmount = Value
-    end,
+    end
 })
 
-print("Defined UI 11")
-
-local SpinBotToggleButton = Tab:CreateToggle({
-    Name = 'SpinBot',
-    Info = {
-        Title = 'Slider template',
-        Image = '12735851647',
-        Description = 'Just a slider for stuff',
-    },
-    CurrentValue = false,
-    Flag = "SpinBotFlag",
-
+-- SpinBot Toggle
+Tabs.Main:AddToggle("SpinBotToggle", {
+    Title = "SpinBot",
+    Default = false,
     Callback = function(Value)
+        Settings.SpinBotFlag = Value
         Functions.ToggleSpinbot(Value)
     end
 })
 
-print("Defined UI 12")
-
-local SpinBotSliderElement = Tab:CreateSlider({
-    Name = "SpinBot Slider",
-    Range = {1, 50},
-    Increment = 1,
-    Suffix = "*",
-    CurrentValue = 5,
-    Flag = "SpinBotSliderAmount",
+-- SpinBot Speed Slider
+Tabs.Main:AddSlider("SpinBotSliderAmount", {
+    Title = "SpinBot Speed",
+    Default = 5,
+    Min = 1,
+    Max = 50,
+    Rounding = 1,
     Callback = function(Value)
         Settings.SpinBotSliderAmount = Value
-    end,
+    end
 })
-
-print("Defined UI 13")
 
 Connections.AutoGreenConnection = ShootButton.MouseButton1Down:Connect(function()
     if Settings.AutoGreen then
@@ -527,7 +426,8 @@ print("Defined Connection 3")
 
 local old; old = hookfunction(ShootFunction, function(...)
     if Settings.RageAutoGreen then
-        ReplicatedStorage.Events.Shoot:FireServer(false, -0.99, false)
+        local v36 = -0.99
+        ReplicatedStorage.Events.Shoot:FireServer(p34, v36, false)
         Meter2Meter.Parent.Enabled = false
     else
         old(...)
